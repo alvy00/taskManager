@@ -1,0 +1,100 @@
+body{
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+.container {
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+#taskForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+#taskForm input, #taskForm textarea, #taskForm select, #taskForm button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+#taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+   
+.task-item {
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.task-completed {
+    text-decoration: line-through;
+    color: #888;
+    opacity: 0.7;
+}
+.task-actions button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    }
+.complete-btn {
+    padding-right: 5px;
+    border: 1px solid #c89616;
+    border-radius: 40px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+.edit-btn {
+    border: 1px solid #c89616;
+    border-radius: 40px;
+    background-color: #329487d2;
+    color: white;
+    cursor: pointer;
+}
+.delete-btn {
+    border: 1px solid #c89616;
+    border-radius: 40px;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+}
+
+.complete-btn:hover {background-color: #00ff44;}
+.edit-btn:hover {background-color: #0a8fcc;}
+.delete-btn:hover {background-color: #ff0000;}
+
+
+.ranClass{
+    background-color: blueviolet;
+}
+
+.task{
+    background-color: #747071;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.taskButtons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

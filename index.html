@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title id="header-title">Task Management App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+
+        <!-- Task Input Form -->
+        <form id="taskForm">
+            <input type="text" id="taskTitle" placeholder="Task Title" required>
+                <textarea id="taskDescription" placeholder="Task Description"></textarea>
+                <select id="taskPriority">
+                    <option value="low">Low Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="high">High Priority</option>
+                </select>
+            <button id="addTask" type="submit">Add Task</button>
+        </form>
+
+
+        <!-- Task List Container -->
+        <div class="taskList" id="taskList">
+            <h1>Task List</h1>
+    
+            <div class="task">
+                <h3 id="taskT">Task Title</h3>
+                <p id="taskID">ID</p>
+                <p id="taskD">Task Description</p>
+                <p id="taskP">Task Priority</p>
+                <div class="taskButtons">
+                    <button class="complete-btn" id="complete-btn">Complete</button>
+                    <button class="edit-btn" id="edit-btn">Update</button>
+                    <button class="delete-btn" id="delete-btn">Delete</button>
+                </div>
+            </div>
+            
+            <div class="task">
+                <h3 id="taskT">Task Title</h3>
+                <p id="taskID">ID</p>
+                <p id="taskD">Task Description</p>
+                <p id="taskP">Task Priority</p>
+                <div class="taskButtons">
+                    <button class="complete-btn" id="complete-btn">Complete</button>
+                    <button class="edit-btn" id="edit-btn">Edit</button>
+                    <button class="delete-btn" id="delete-btn">Delete</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+<script src="taskManager.js"></script>
+</body>
+</html>
+
+
+<!-- <div class="task">
+    <h3 id="taskT">Task Title</h3>
+    <p id="taskID">ID</p>
+    <p id="taskD">Task Description</p>
+    <p id="taskP">Task Priority</p>
+    <div class="taskButtons">
+        <button class="complete-btn">Complete</button>
+        <button class="edit-btn">Edit</button>
+        <button class="delete-btn">Delete</button>
+    </div>
+</div> -->
