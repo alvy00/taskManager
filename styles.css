@@ -25,19 +25,28 @@ body{
 }
 #taskList {
     display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: 0% 2%;
     flex-direction: column;
     gap: 10px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    justify-content: space-around;
+}
+
+#taskList h1{
+    justify-self: center;
+    align-self: center;
 }
    
-.task-item {
-    background: white;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+.task h3, h4, h5{
+    padding: 1% 2%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-self: space-between;
+    align-self: center;
 }
+
 .task-completed {
     text-decoration: line-through;
     color: #888;

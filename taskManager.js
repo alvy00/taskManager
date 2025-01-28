@@ -65,28 +65,29 @@ let list = document.getElementById("taskList").addEventListener('click', removeT
 
 
 function appendTask(e){
+    e.preventDefault();
 
     let taskTitleInput = document.getElementById("taskTitle").value;
     let taskDesInput = document.getElementById("taskDescription").value;
     let taskPriority = document.getElementById("taskPriority").value;
-    e.preventDefault();
+
     let newTask = document.createElement('div');
     newTask.className = 'task';
 
     let taskT = document.createElement('h3');
     taskT.id = taskT;
-    let taskID = document.createElement('p');
+    let taskID = document.createElement('h4');
     taskID.id = taskID;
-    let taskD = document.createElement('p');
+    let taskD = document.createElement('h5');
     taskD.id = taskD;
-    let taskP = document.createElement('p');
+    let taskP = document.createElement('h4');
     taskP.id = taskP;
 
-    //taskT.textContent = 'Task Title';
-    taskT = document.createTextNode(taskTitleInput);
-    taskID.textContent = Date.now();
-    taskD = document.createTextNode(taskDesInput);
-    taskP = document.createTextNode(taskPriority);
+
+    taskT.append(document.createTextNode(taskTitleInput));
+    taskID.append(Math.floor(Math.random() * 1000).toString());
+    taskD.append(document.createTextNode(taskDesInput));
+    taskP.append(document.createTextNode(taskPriority));
 
 
     let buttons = document.createElement('div');
