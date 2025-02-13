@@ -79,7 +79,12 @@ body::before {
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    }
+}
+.completed {
+    background-color: #d3ffd3; /* Light green for completed tasks */
+    text-decoration: line-through;
+    opacity: 0.6;
+}
 .complete-btn {
     display: inline-block; 
     padding: 3% 7%;  
