@@ -4,12 +4,33 @@ body{
     margin: 0 auto;
     padding: 20px;
     line-height: 1.6;
+    background-image: url("assets/bg-colourful-circle.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: white;
+    position: relative;
+}
+body::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Adjust for better readability */
+    z-index: -1;
 }
 .container {
-    background: #f4f4f4;
+    background: #c40de9;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    backdrop-filter: blur(10px); 
+    background: rgba(255, 0, 0, 0.1); 
+    padding: 20px;
+    border-radius: 10px;
 }
 #taskForm {
     display: flex;
@@ -30,8 +51,8 @@ body{
     padding: 0% 2%;
     flex-direction: column;
     gap: 10px;
-    background: white;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 20px;
     justify-content: space-around;
 }
 
@@ -60,26 +81,37 @@ body{
     cursor: pointer;
     }
 .complete-btn {
-    padding-right: 5px;
-    border: 1px solid #c89616;
-    border-radius: 40px;
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
+    display: inline-block; 
+    padding: 3% 7%;  
+    background-color: #1eba21; 
+    color: white;  
+    text-align: center;  
+    border-radius: 5px;  
+    cursor: pointer;  
+    user-select: none;
+    transition: background 0.2s;
 }
 .edit-btn {
-    border: 1px solid #c89616;
-    border-radius: 40px;
-    background-color: #329487d2;
-    color: white;
+    display: inline-block;
+    padding: 3% 7%;   
+    background-color: #1463b8;
+    color: white;  
+    text-align: center;  
+    border-radius: 5px;  
     cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
 }
 .delete-btn {
-    border: 1px solid #c89616;
-    border-radius: 40px;
-    background-color: #f44336;
-    color: white;
+    display: inline-block;  
+    padding: 3% 7%;   
+    background-color: #d31111; 
+    color: white;  
+    text-align: center;  
+    border-radius: 5px;  
     cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
 }
 
 .complete-btn:hover {background-color: #00ff44;}
@@ -92,18 +124,21 @@ body{
 }
 
 .task{
-    background-color: #747071;
+    background-color: #8e7e82;
     color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    padding: 4% 1%;
+    border-radius: 20px;
+    margin-bottom: 5%;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
 
 .taskButtons{
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-grow: 1;
+    justify-content: space-between;
+    justify-content: center;
+    gap: 10%;
 }
