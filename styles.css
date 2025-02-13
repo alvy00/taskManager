@@ -41,7 +41,7 @@ body::before {
 #taskForm input, #taskForm textarea, #taskForm select, #taskForm button {
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #ffffff;
     border-radius: 4px;
 }
 #taskList {
@@ -51,8 +51,6 @@ body::before {
     padding: 0% 2%;
     flex-direction: column;
     gap: 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border-radius: 20px;
     justify-content: space-around;
 }
 
@@ -81,7 +79,7 @@ body::before {
     cursor: pointer;
 }
 .completed {
-    background-color: #d3ffd3; /* Light green for completed tasks */
+    background-color: #d3ffd3;
     text-decoration: line-through;
     opacity: 0.6;
 }
