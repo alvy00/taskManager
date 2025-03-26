@@ -9,25 +9,47 @@
 
 <body>
     <div class="container">
-        <h1 style="color: rgb(255, 111, 0); text-align: center;">Task Manager</h1>
+        <h1 style="color: rgb(7, 238, 246); text-align: center;">Task Manager</h1>
 
         <!-- Task Input Form -->
         <form id="taskForm">
-            <input type="text" id="taskTitle" name="inputTitle" placeholder="Task Title" required />
+                <label for="taskTitle">Title</label>
+                <input type="text" id="taskTitle" name="inputTitle" placeholder="Task Title" required />
+                <label for="taskDescription">Description</label>
                 <textarea id="taskDescription" placeholder="Task Description"></textarea>
+                <label for="taskDueDate">Due Date:</label>
+                <input type="date" id="taskDueDate">
+                <label for="taskPriority">Priority</label>
                 <select id="taskPriority">
                     <option value="LOW">Low Priority</option>
                     <option value="MEDIUM">Medium Priority</option>
                     <option value="HIGH">High Priority</option>
                 </select>
-            <button id="addTask" type="submit">Add Task</button>
+                <div id="addTask" class="add-task-btn"> ➕ Add Task </div>
+
+            <div class="taskBtns">
+                <div id="updateTask" class="btn update-btn">📝 Update Task</div>
+                <div id="toggleTask" class="btn toggle-btn">🔄 Toggle Completion</div>
+                <div id="deleteTask" class="btn delete-btn">🗑️ Delete Task</div>
+            </div>
+            
         </form>
 
-
+        <div class="taskFuncs">
+            <select id="priorityFilter">
+                <option value="ALL">All Tasks</option>
+                <option value="LOW">Low Priority</option>
+                <option value="MEDIUM">Medium Priority</option>
+                <option value="HIGH">High Priority</option>
+            </select>
+            <button id="sortTasksBtn">Sort by Due Date</button>
+            <input type="text" id="taskSearch" placeholder="Search Tasks">
+        </div>
         <!-- Task List Container -->
         <div class="taskList" id="taskList">
-            <h1 style="color: rgb(240, 0, 0);">Task List</h1>
+            <h1 style="color: rgb(241, 244, 246);">Task List</h1>
         </div>
+        
     </div>
 
     

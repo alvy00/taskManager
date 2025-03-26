@@ -1,6 +1,12 @@
 document.getElementById("addTask").addEventListener('click', appendTask);
-document.getElementById("taskList").addEventListener('click', handleTaskClick);
 document.addEventListener('DOMContentLoaded', loadTasks);
+document.getElementById("updateTask").addEventListener('click', promptForTaskId('update'));
+document.getElementById("deleteTask").addEventListener('click', promptForTaskId('delete'));
+document.getElementById("toggleTask").addEventListener('click', promptForTaskId('toggle'));
+document.getElementById("priorityFilter").addEventListener('change', filterTasksByPriority);
+document.getElementById("sortTasksBtn").addEventListener('click', sortTasksByDueDate);
+document.getElementById("taskSearch").addEventListener('input', searchTasks);
+
 
 function appendTask(e) {
     e.preventDefault();
@@ -8,8 +14,9 @@ function appendTask(e) {
     let taskTitleInput = document.getElementById("taskTitle").value;
     let taskDesInput = document.getElementById("taskDescription").value;
     let taskPriority = document.getElementById("taskPriority").value;
+    let taskDueDate = document.getElementById("taskDueDate").value;
 
-    if (!taskTitleInput.trim() || !taskDesInput.trim() || !taskPriority.trim()) {
+    if (!taskTitleInput.trim() || !taskDesInput.trim() || !taskPriority.trim() || !taskDueDate.trim()) {
         Swal.fire({
             icon: 'warning',
             title: 'Oops...',
@@ -19,22 +26,26 @@ function appendTask(e) {
         return;
     }
 
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    const newId = tasks.length > 0 ? Math.max(...tasks.map(t => Number(t.id) || 0)) + 1 : 1;
     let task = {
-        id: Math.floor(Math.random() * 1000),
+        id: newId,
         title: taskTitleInput,
         description: taskDesInput,
         priority: taskPriority,
-        completed: false
+        completed: false,
+        dueDate: taskDueDate
     };
 
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
     addTaskToDOM(task);
 
     document.getElementById("taskTitle").value = '';
     document.getElementById("taskDescription").value = '';
+    document.getElementById("taskDueDate").value = '';
 }
+
 
 function addTaskToDOM(task) {
     let taskList = document.querySelector('.taskList');
@@ -47,40 +58,23 @@ function addTaskToDOM(task) {
     newTask.className = 'task';
     newTask.setAttribute('data-id', task.id);
 
-    let taskID = document.createElement('h4');
-    let taskT = document.createElement('h2');
+    let taskID = document.createElement('h5');
+    let taskT = document.createElement('h3');
     let taskD = document.createElement('h5');
-    let taskP = document.createElement('h4');
+    let taskP = document.createElement('h5');
+    let taskDueDate = document.createElement('h5');
 
     taskID.textContent = "ID: " + task.id;
     taskT.textContent = "Title: " + task.title;
     taskD.textContent = "Description: " + task.description;
     taskP.textContent = "Priority: " + task.priority;
-
-    let buttons = document.createElement('div');
-    buttons.className = "taskButtons";
-
-    let cmplBtn = document.createElement('div');
-    cmplBtn.className = "complete-btn";
-    cmplBtn.textContent = task.completed ? 'Completed' : 'Complete';
-
-    let editBtn = document.createElement('div');
-    editBtn.className = "edit-btn";
-    editBtn.textContent = "Update";
-
-    let delBtn = document.createElement('div');
-    delBtn.className = "delete-btn";
-    delBtn.textContent = "Delete";
-
-    buttons.appendChild(cmplBtn);
-    buttons.appendChild(editBtn);
-    buttons.appendChild(delBtn);
+    taskDueDate.innerHTML = `Due: <br>${task.dueDate}`;
 
     newTask.appendChild(taskID);
     newTask.appendChild(taskT);
     newTask.appendChild(taskD);
     newTask.appendChild(taskP);
-    newTask.appendChild(buttons);
+    newTask.appendChild(taskDueDate);
 
     if (task.completed) {
         newTask.classList.add('completed');
@@ -89,55 +83,90 @@ function addTaskToDOM(task) {
     taskList.appendChild(newTask);
 }
 
+
 function loadTasks() {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.forEach(addTaskToDOM);
 }
 
-function handleTaskClick(e) {
-    e.preventDefault();
-    if (e.target.classList.contains('delete-btn')) {
-        removeTask(e);
-    } else if (e.target.classList.contains('edit-btn')) {
-        updateTask(e);
-    } else if (e.target.classList.contains('complete-btn')) {
-        toggleComplete(e);
+// Prompt for Task ID dynamically after clicking an action button
+function promptForTaskId(action) {
+    return function () {
+        Swal.fire({
+            title: `Enter Task ID to ${action}`,
+            input: 'number',
+            inputPlaceholder: 'Task ID',
+            showCancelButton: true,
+            confirmButtonText: `Confirm ${action}`,
+            preConfirm: (id) => {
+                if (!id) {
+                    Swal.showValidationMessage('Please enter a valid Task ID');
+                    return;
+                }
+                return id;
+            }
+        }).then(result => {
+            if (result.isConfirmed) {
+                const taskId = result.value;
+                if (action === 'update') {
+                    updateTaskById(taskId);
+                } else if (action === 'delete') {
+                    deleteTaskById(taskId);
+                } else if (action === 'toggle') {
+                    toggleCompleteById(taskId);
+                }
+            }
+        });
     }
 }
 
-function removeTask(e) {
+// DELETE Task
+function deleteTaskById(taskId) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    let task = tasks.find(task => task.id === Number(taskId));
+
+    if (!task) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Task not found',
+            text: `No task found with ID: ${taskId}`,
+        });
+        return;
+    }
+
     Swal.fire({
         title: "Are you sure?",
-        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
         cancelButtonColor: "#3085d6",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Yes"
     }).then((result) => {
         if (result.isConfirmed) {
-            let taskElement = e.target.closest('.task');
-            let taskId = taskElement.getAttribute('data-id');
-
-            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
             tasks = tasks.filter(task => task.id !== Number(taskId));
             localStorage.setItem("tasks", JSON.stringify(tasks));
 
-            taskElement.remove();
+            let taskElement = document.querySelector(`.task[data-id="${taskId}"]`);
+            if (taskElement) taskElement.remove();
 
             Swal.fire("Deleted!", "Your task has been deleted.", "success");
         }
     });
 }
 
-function updateTask(e) {
-    let taskElement = e.target.closest('.task');
-    let taskId = taskElement.getAttribute('data-id');
-
+// UPDATE Task
+function updateTaskById(taskId) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     let task = tasks.find(task => task.id === Number(taskId));
 
-    if (!task) return;
+    if (!task) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Task not found',
+            text: `No task found with ID: ${taskId}`,
+        });
+        return;
+    }
 
     Swal.fire({
         title: "Update Task",
@@ -148,7 +177,7 @@ function updateTask(e) {
         `,
         focusConfirm: false,
         showCancelButton: true,
-        confirmButtonText: "Save Changes",
+        confirmButtonText: "Save",
         preConfirm: () => {
             return {
                 id: Number(document.getElementById("swal-task-id").value),
@@ -170,6 +199,8 @@ function updateTask(e) {
             tasks[taskIndex] = updatedTask;
             localStorage.setItem("tasks", JSON.stringify(tasks));
 
+            // Update DOM task info
+            let taskElement = document.querySelector(`.task[data-id="${updatedTask.id}"]`);
             taskElement.querySelector('h2').textContent = "Title: " + updatedTask.title;
             taskElement.querySelector('h5').textContent = "Description: " + updatedTask.description;
 
@@ -178,14 +209,19 @@ function updateTask(e) {
     });
 }
 
-function toggleComplete(e) {
-    let taskElement = e.target.closest('.task');
-    let taskId = taskElement.getAttribute('data-id');
-
+// Toggle Task Completion
+function toggleCompleteById(taskId) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     let task = tasks.find(task => task.id === Number(taskId));
 
-    if (!task) return;
+    if (!task) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Task not found',
+            text: `No task found with ID: ${taskId}`,
+        });
+        return;
+    }
 
     task.completed = !task.completed;
 
@@ -193,13 +229,49 @@ function toggleComplete(e) {
     tasks[taskIndex] = task;
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
-
+    let taskElement = document.querySelector(`.task[data-id="${taskId}"]`);
     if (task.completed) {
         taskElement.classList.add('completed');
-        e.target.textContent = 'Completed';
     } else {
         taskElement.classList.remove('completed');
-        e.target.textContent = 'Complete';
     }
+
+    Swal.fire("Updated!", "Your task's completion status has been toggled.", "success");
 }
 
+function filterTasksByPriority() {
+    const priorityFilter = document.getElementById("priorityFilter").value;
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    let filteredTasks = tasks.filter(task => {
+        return priorityFilter === "ALL" || task.priority === priorityFilter;
+    });
+
+    let taskList = document.querySelector('.taskList');
+    taskList.innerHTML = '';
+    filteredTasks.forEach(addTaskToDOM);
+}
+
+function sortTasksByDueDate() {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+
+    let taskList = document.querySelector('.taskList');
+    taskList.innerHTML = ''; 
+    tasks.forEach(addTaskToDOM);
+}
+
+function searchTasks() {
+    const searchQuery = document.getElementById("taskSearch").value.toLowerCase();
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    let filteredTasks = tasks.filter(task => {
+        return task.title.toLowerCase().includes(searchQuery) || task.description.toLowerCase().includes(searchQuery);
+    });
+
+    let taskList = document.querySelector('.taskList');
+    taskList.innerHTML = '';
+    filteredTasks.forEach(addTaskToDOM);
+}

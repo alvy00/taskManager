@@ -22,12 +22,12 @@ body::before {
     z-index: -1;
 }
 .container {
+    min-width: 560px;
     background: #c40de9;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
-    backdrop-filter: blur(10px); 
+    backdrop-filter: blur(5px); 
     background: rgba(255, 0, 0, 0.1); 
     padding: 20px;
     border-radius: 10px;
@@ -44,6 +44,17 @@ body::before {
     border: 1px solid #ffffff;
     border-radius: 4px;
 }
+.taskBtns{
+    display: flex;
+    justify-content: space-between;
+}
+
+.taskFuncs{
+    display: flex;
+    justify-content: flex-end;
+    margin: 0% 5%;
+    gap: 2%;
+}
 #taskList {
     display: flex;
     flex-grow: 1;
@@ -58,90 +69,90 @@ body::before {
     justify-self: center;
     align-self: center;
 }
-   
-.task h3, h4, h5{
-    padding: 1% 2%;
-    display: flex;
-    justify-self: space-between;
-    align-self: center;
-}
 
-.task-completed {
-    text-decoration: line-through;
-    color: #888;
-    opacity: 0.7;
-}
-.task-actions button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
 .completed {
     background-color: #d3ffd3;
     text-decoration: line-through;
-    opacity: 0.6;
+    opacity: .5;
 }
-.complete-btn {
-    display: inline-block; 
-    padding: 3% 7%;  
-    background-color: #1eba21; 
-    color: white;  
-    text-align: center;  
-    border-radius: 5px;  
-    cursor: pointer;  
-    user-select: none;
-    transition: background 0.2s;
-}
-.edit-btn {
-    display: inline-block;
-    padding: 3% 7%;   
-    background-color: #1463b8;
-    color: white;  
-    text-align: center;  
-    border-radius: 5px;  
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-}
-.delete-btn {
-    display: inline-block;  
-    padding: 3% 7%;   
-    background-color: #d31111; 
-    color: white;  
-    text-align: center;  
-    border-radius: 5px;  
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-}
-
-.complete-btn:hover {background-color: #00ff44;}
-.edit-btn:hover {background-color: #0a8fcc;}
-.delete-btn:hover {background-color: #ff0000;}
-
 
 .ranClass{
     background-color: blueviolet;
 }
 
-.task{
-    background-color: #8e7e82;
+.task {
+    background-color: rgba(43, 34, 44, 0.8); /* Semi-transparent background */
+    font-weight: 100;
     color: white;
-    padding: 4% 1%;
+    padding: 4% 5%;
     border-radius: 20px;
     margin-bottom: 5%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
+    gap: 5%;
     align-items: center;
+    backdrop-filter: blur(60px); /* Adds blur effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 }
 
-.taskButtons{
-    display: flex;
-    flex-grow: 1;
-    justify-content: space-between;
-    justify-content: center;
-    gap: 10%;
+.task h2, h4, h5{
+    font-weight: 100;
+}
+.task:hover {
+    background-color: rgba(133, 116, 134, 1); /* Full opacity on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow on hover */
+}
+.btn {
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.add-task-btn {
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.update-btn {
+    background-color: #1463b8;
+}
+
+.toggle-btn {
+    background-color: #ffc107;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+.add-task-btn:hover {
+    background-color: #00ff44;
+}
+
+.update-btn:hover {
+    background-color: #00aeff;
+}
+
+.toggle-btn:hover {
+    background-color: #ffea00;
+}
+
+.delete-btn:hover {
+    background-color: #ff0000;;
 }
