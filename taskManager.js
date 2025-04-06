@@ -7,7 +7,6 @@ document.getElementById("priorityFilter").addEventListener('change', filterTasks
 document.getElementById("sortTasksBtn").addEventListener('click', sortTasksByDueDate);
 document.getElementById("taskSearch").addEventListener('input', searchTasks);
 
-
 function appendTask(e) {
     e.preventDefault();
 
@@ -46,7 +45,6 @@ function appendTask(e) {
     document.getElementById("taskDueDate").value = '';
 }
 
-
 function addTaskToDOM(task) {
     let taskList = document.querySelector('.taskList');
     if (!taskList) {
@@ -83,13 +81,14 @@ function addTaskToDOM(task) {
     taskList.appendChild(newTask);
 }
 
-
 function loadTasks() {
+    let taskList = document.querySelector('.taskList');
+    taskList.innerHTML = '';
+
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     tasks.forEach(addTaskToDOM);
 }
 
-// Prompt for Task ID dynamically after clicking an action button
 function promptForTaskId(action) {
     return function () {
         Swal.fire({
@@ -120,7 +119,6 @@ function promptForTaskId(action) {
     }
 }
 
-// DELETE Task
 function deleteTaskById(taskId) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     let task = tasks.find(task => task.id === Number(taskId));
@@ -146,15 +144,13 @@ function deleteTaskById(taskId) {
             tasks = tasks.filter(task => task.id !== Number(taskId));
             localStorage.setItem("tasks", JSON.stringify(tasks));
 
-            let taskElement = document.querySelector(`.task[data-id="${taskId}"]`);
-            if (taskElement) taskElement.remove();
+            loadTasks();
 
             Swal.fire("Deleted!", "Your task has been deleted.", "success");
         }
     });
 }
 
-// UPDATE Task
 function updateTaskById(taskId) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     let task = tasks.find(task => task.id === Number(taskId));
@@ -183,7 +179,9 @@ function updateTaskById(taskId) {
                 id: Number(document.getElementById("swal-task-id").value),
                 title: document.getElementById("swal-task-title").value.trim(),
                 description: document.getElementById("swal-task-desc").value.trim(),
-                priority: task.priority
+                priority: task.priority,
+                completed: task.completed,
+                dueDate: task.dueDate
             };
         }
     }).then((result) => {
@@ -199,17 +197,13 @@ function updateTaskById(taskId) {
             tasks[taskIndex] = updatedTask;
             localStorage.setItem("tasks", JSON.stringify(tasks));
 
-            // Update DOM task info
-            let taskElement = document.querySelector(`.task[data-id="${updatedTask.id}"]`);
-            taskElement.querySelector('h2').textContent = "Title: " + updatedTask.title;
-            taskElement.querySelector('h5').textContent = "Description: " + updatedTask.description;
+            loadTasks();
 
             Swal.fire("Updated!", "Your task has been updated.", "success");
         }
     });
 }
 
-// Toggle Task Completion
 function toggleCompleteById(taskId) {
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     let task = tasks.find(task => task.id === Number(taskId));
@@ -229,12 +223,7 @@ function toggleCompleteById(taskId) {
     tasks[taskIndex] = task;
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
-    let taskElement = document.querySelector(`.task[data-id="${taskId}"]`);
-    if (task.completed) {
-        taskElement.classList.add('completed');
-    } else {
-        taskElement.classList.remove('completed');
-    }
+    loadTasks();
 
     Swal.fire("Updated!", "Your task's completion status has been toggled.", "success");
 }
@@ -257,9 +246,8 @@ function sortTasksByDueDate() {
 
     tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
-
     let taskList = document.querySelector('.taskList');
-    taskList.innerHTML = ''; 
+    taskList.innerHTML = '';
     tasks.forEach(addTaskToDOM);
 }
 
